@@ -24,9 +24,9 @@ h_theta = sigmoid(X * theta);
 J = sum(-y' * log(h_theta) - (1 - y')* log(1 - h_theta))/m + lambda * sum(theta(2:n) .^2)/(2*m);
 
 
-grad = sum(X .* (h_theta - y) , 1)/m;  + lambda * theta'/m;
+grad = sum(X .* (h_theta - y) , 1)/m + lambda * theta'/m;
 
-grad(1) = sum(X .* (h_theta - y) , 1)(1)/m;
+grad(1) = (sum(X .* (h_theta - y) , 1)/m)(1);
 
 
 % =============================================================
