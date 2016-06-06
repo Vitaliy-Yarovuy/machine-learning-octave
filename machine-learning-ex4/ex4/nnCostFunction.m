@@ -88,7 +88,25 @@ J += lambda * (sum(Theta1_r.^2) + sum(Theta2_r .^2) )/(2*m);
 
 
 
+for t = 1:m
+	X_t = X(t,:);
+	a1_t = [1, X_t]';
+	z2_t = Theta1 * a1_t;
 
+	a2_t = [1 ; sigmoid(z2_t)];
+	a3_t = sigmoid(Theta2 * a2_t);
+	h_theta_t = a3_t;
+
+	y_t =  zeros(num_labels);
+	y_t(y(t)) = 1;
+
+	beka_3 = a3_t - y_t;
+
+	size(beka_3)
+	size(y)
+	size(y_t)
+
+endfor
 
 
 
