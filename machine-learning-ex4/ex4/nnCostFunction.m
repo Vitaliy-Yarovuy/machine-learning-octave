@@ -86,8 +86,13 @@ J += lambda * (sum(Theta1_r.^2) + sum(Theta2_r .^2) )/(2*m);
 % J = sum(-y1' * log(h_theta) - (1 - y1') * log(1 - h_theta))/m
 
 
+Delta_1 = zeros(size(Theta1));
+Delta_2 = zeros(size(Theta2));
+
+Theta2_0 = (Theta2(:,2:size(Theta2,2)));
 
 
+t = 1;
 for t = 1:m
 	X_t = X(t,:);
 	a1_t = [1, X_t]';
@@ -97,19 +102,33 @@ for t = 1:m
 	a3_t = sigmoid(Theta2 * a2_t);
 	h_theta_t = a3_t;
 
-	y_t =  zeros(num_labels);
+	y_t = zeros(num_labels, 1);
 	y_t(y(t)) = 1;
 
-	beka_3 = a3_t - y_t;
-
-	size(beka_3)
-	size(y)
-	size(y_t)
+	delta_3 = a3_t - y_t;
+	delta_2 = (Theta2_0' * delta_3) .* sigmoidGradient(z2_t);
+		
+	Delta_1 = Delta_1 + delta_2 * a1_t';
+	Delta_2 = Delta_2 + delta_3 * a2_t';
 
 endfor
 
 
+Theta1_grad = Delta_1 / m;
+Theta2_grad = Delta_2 / m;
 
+
+Reg_1 = Theta1 * lambda / m;
+Reg_2 = Theta2 * lambda / m;
+
+Reg_1(:,1) = 0;
+Reg_2(:,1) = 0;
+
+
+Theta1_grad = Theta1_grad + Reg_1;
+Theta2_grad = Theta2_grad + Reg_2;
+
+% /Users/Snackovich/projects/octave/machine-learning-octave/machine-learning-ex4/ex4
 
 
 
